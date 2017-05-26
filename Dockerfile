@@ -21,6 +21,11 @@ ENV PANDOC_VERSION "1.19.2.1"
 # install pandoc
 RUN cabal update && cabal install pandoc-${PANDOC_VERSION}
 
+ADD extra_fonts /usr/share/fonts/
+RUN fc-cache -fv
+
+RUN apt-get autoclean && rm -rf /var/lib/apt/lists
+
 WORKDIR /source
 
 ENTRYPOINT ["/root/.cabal/bin/pandoc"]
